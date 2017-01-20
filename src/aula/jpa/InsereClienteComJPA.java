@@ -62,11 +62,11 @@ public class InsereClienteComJPA {
 		// Fecha entrada
 		entrada.close();
 
-		// Marca objeto para armazenar
-		manager.persist(c);
-
 		// Abre transacao
 		manager.getTransaction().begin();
+
+		// Marca objeto para armazenar
+		manager.persist(c);
 
 		// Comita transacao
 		manager.getTransaction().commit();

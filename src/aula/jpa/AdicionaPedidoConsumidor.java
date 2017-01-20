@@ -1,12 +1,13 @@
 package aula.jpa;
 
+import java.util.Calendar;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class RemoveEditoraComJPA {
+public class AdicionaPedidoConsumidor {
 
 	public static void main(String[] args) {
 
@@ -19,31 +20,45 @@ public class RemoveEditoraComJPA {
 		// Instancia entrada
 		Scanner entrada = new Scanner(System.in);
 
-		// Cria user input
-		System.out.println("Digite o id da editora que deseja remover: ");
-		Long id = Long.parseLong(entrada.nextLine());
+		// Cria objeto 1
+		Consumidor c = new Consumidor();
+
+		// Cria user input 1
+		System.out.println("Digite o nome do consumidor: ");
+		c.setNome(entrada.nextLine());
+
+		// Cria objeto 2
+		Pedido p = new Pedido();
+
+		// Cria input 2
+		System.out.println("Registrando data do pedido...");
+		p.setData(Calendar.getInstance());
 
 		// Fecha entrada
 		entrada.close();
 
-		// Busca informacao do objeto no BD
-		Editora e = manager.find(Editora.class, id);
+		// Insere na classe que possui o vinculo ManyToOne
+		p.setConsumidor(c);
 
 		// Abre transacao
 		manager.getTransaction().begin();
 
-		// Marca objeto para remover
-		manager.remove(e);
+		// Marca objeto para armazenar
+		manager.persist(c);
+		manager.persist(p);
 
 		// Comita transacao
 		manager.getTransaction().commit();
+
+		// Exibe resultado
+		System.out.println("Consumidor cadastrado com id: " + c.getId());
+		System.out.println("Pedido cadastrado com id: " + p.getId());
 
 		// Fecha manipulacao
 		manager.close();
 
 		// Fecha conexao
 		factory.close();
-
 	}
 
 }
